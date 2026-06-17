@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mentor Dashboard - MentorBridge</title>
+<style>
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap");
+:root{--teal:#2EC4A5;--teal-dark:#1FA888;--teal-light:#E8F9F6;--purple:#5B4FC8;--purple-light:#EEEDFB;--gold:#F0C040;--gold-light:#FEF8DC;--navy:#1E1B4B;--navy-mid:#2D2A6E;--gray:#64748B;--light:#F8FAFC;--border:#E2E8F0}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Plus Jakarta Sans",sans-serif;background:var(--light);color:var(--navy);min-height:100vh}
+header{background:var(--navy);padding:14px 40px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.logo-area{display:flex;align-items:center;gap:12px}
+.logo-icon{width:38px;height:38px;background:linear-gradient(135deg,var(--teal),var(--purple));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem}
+.logo-name{font-size:1rem;font-weight:800;color:white}
+.logo-name span{color:var(--teal)}
+.logo-tag{font-size:0.65rem;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.06em}
+.header-right{display:flex;align-items:center;gap:12px}
+.btn-logout{background:rgba(255,255,255,0.1);color:white;border:1px solid rgba(255,255,255,0.2);padding:6px 14px;border-radius:8px;font-size:0.8rem;cursor:pointer;font-family:"Plus Jakarta Sans",sans-serif}
+.hero-bar{background:linear-gradient(135deg,var(--navy),var(--navy-mid));padding:32px 40px;color:white;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px}
+.hero-left h1{font-size:1.5rem;font-weight:800;margin-bottom:4px}
+.hero-left p{color:rgba(255,255,255,0.6);font-size:0.88rem}
+.badge-display{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:14px;padding:14px 20px}
+.badge-emoji{font-size:2rem}
+.badge-title{font-weight:800;color:white;font-size:0.95rem}
+.badge-sub{font-size:0.75rem;color:rgba(255,255,255,0.55)}
+.container{max-width:1100px;margin:0 auto;padding:32px 20px}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px}
+.grid-2{display:grid;grid-template-columns:2fr 1fr;gap:20px}
+.card{background:white;border-radius:20px;padding:24px;box-shadow:0 2px 16px rgba(30,27,75,0.06);border:1px solid var(--border)}
+.card-title{font-size:0.85rem;font-weight:800;text-transform:uppercase;letter-spacing:0.08em;color:var(--gray);margin-bottom:16px}
+.stat-card{text-align:center;padding:24px 16px}
+.stat-num{font-size:2.2rem;font-weight:800;background:linear-gradient(135deg,var(--teal),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;display:block;line-height:1}
+.stat-label{font-size:0.78rem;color:var(--gray);margin-top:6px;font-weight:600}
+.profile-section{display:flex;align-items:center;gap:16px;margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid var(--border)}
+.mentor-avatar{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,var(--teal),var(--purple));display:flex;align-items:center;justify-content:center;font-size:1.8rem;flex-shrink:0}
+.mentor-info-name{font-size:1.2rem;font-weight:800}
+.mentor-info-meta{font-size:0.82rem;color:var(--gray);margin-top:3px}
+.tag{display:inline-block;padding:4px 12px;border-radius:20px;font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;margin:3px}
+.tag-teal{background:var(--teal-light);color:var(--teal-dark)}
+.tag-purple{background:var(--purple-light);color:#4438A8}
+.points-bar{margin-top:16px}
+.points-label{display:flex;justify-content:space-between;font-size:0.8rem;font-weight:700;margin-bottom:6px}
+.points-label span:last-child{color:var(--gold)}
+.points-track{height:10px;background:var(--light);border-radius:10px;overflow:hidden;border:1px solid var(--border)}
+.points-fill{height:100%;border-radius:10px;background:linear-gradient(90deg,var(--gold),var(--teal));transition:width 0.8s ease}
+.badge-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:8px}
+.badge-item{text-align:center;padding:16px;background:var(--light);border-radius:12px;border:1px solid var(--border)}
+.badge-item.earned{background:var(--gold-light);border-color:#FDE68A}
+.badge-emoji-sm{font-size:1.6rem;display:block;margin-bottom:6px}
+.badge-label{font-size:0.72rem;font-weight:700;color:var(--gray);text-transform:uppercase}
+.badge-item.earned .badge-label{color:#92400E}
+.cert-box{background:linear-gradient(135deg,var(--navy),var(--navy-mid));border-radius:16px;padding:24px;color:white;text-align:center;margin-top:16px}
+.cert-box h3{font-size:1rem;font-weight:800;margin-bottom:6px}
+.cert-box p{font-size:0.8rem;opacity:0.7;margin-bottom:16px;line-height:1.5}
+.btn-cert{background:linear-gradient(135deg,var(--gold),#F59E0B);color:var(--navy);border:none;padding:10px 20px;border-radius:10px;font-size:0.85rem;font-weight:800;cursor:pointer;font-family:"Plus Jakarta Sans",sans-serif}
+.btn-share{background:linear-gradient(135deg,#0077B5,#005885);color:white;border:none;padding:10px 20px;border-radius:10px;font-size:0.85rem;font-weight:800;cursor:pointer;font-family:"Plus Jakarta Sans",sans-serif;margin-top:8px;width:100%}
+.empty-state{text-align:center;padding:32px;color:var(--gray)}
+.empty-state div:first-child{font-size:2rem;margin-bottom:8px}
+.btn-main{background:linear-gradient(135deg,var(--teal),var(--purple));color:white;border:none;padding:13px 24px;border-radius:12px;font-size:0.9rem;font-weight:800;cursor:pointer;width:100%;margin-top:16px;font-family:"Plus Jakarta Sans",sans-serif}
+@media(max-width:700px){.grid-4{grid-template-columns:1fr 1fr}.grid-2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo-area">
+    <div class="logo-icon">✦</div>
+    <div>
+      <div class="logo-name">Mentor<span>Bridge</span></div>
+      <div class="logo-tag">by Advent AI Solutions</div>
+    </div>
+  </div>
+  <div class="header-right">
+    <span style="color:white;font-weight:700;font-size:0.88rem" id="headerName">👋 Welcome</span>
+    <button class="btn-logout" onclick="logout()">Sign Out</button>
+  </div>
+</header>
+
+<div class="hero-bar">
+  <div class="hero-left">
+    <h1 id="heroGreeting">Welcome back! 🎉</h1>
+    <p id="heroSub">Your mentor impact dashboard</p>
+  </div>
+  <div class="badge-display">
+    <div class="badge-emoji" id="heroBadgeEmoji">🌱</div>
+    <div>
+      <div class="badge-title" id="heroBadgeTitle">Starter Mentor</div>
+      <div class="badge-sub">Keep mentoring to level up!</div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="grid-4">
+    <div class="card stat-card"><span class="stat-num" id="statSessions">0</span><div class="stat-label">Sessions</div></div>
+    <div class="card stat-card"><span class="stat-num" id="statPoints">0</span><div class="stat-label">Reward Points</div></div>
+    <div class="card stat-card"><span class="stat-num" id="statRating">-</span><div class="stat-label">Avg Rating</div></div>
+    <div class="card stat-card"><span class="stat-num" id="statStudents">0</span><div class="stat-label">Students Helped</div></div>
+  </div>
+
+  <div class="grid-2">
+    <div>
+      <div class="card" style="margin-bottom:20px">
+        <div class="card-title">👤 My Profile</div>
+        <div class="profile-section">
+          <div class="mentor-avatar" id="mentorEmoji">🎓</div>
+          <div>
+            <div class="mentor-info-name" id="mentorName">Loading...</div>
+            <div class="mentor-info-meta" id="mentorMeta"></div>
+            <div style="margin-top:6px" id="mentorTags"></div>
+          </div>
+        </div>
+        <div style="font-size:0.85rem;color:var(--gray);line-height:1.6" id="mentorBio"></div>
+        <div class="points-bar">
+          <div class="points-label"><span>Points to Gold Badge</span><span id="pointsLabel">0 / 500</span></div>
+          <div class="points-track"><div class="points-fill" id="pointsFill" style="width:0%"></div></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">💬 Recent Sessions</div>
+        <div id="sessionsList">
+          <div class="empty-state"><div>💬</div><div>No sessions yet. Students will match with you soon!</div></div>
+        </div>
+        <button class="btn-main" onclick="window.location.href='index.html'">View Student Portal ✦</button>
+      </div>
+    </div>
+    <div>
+      <div class="card" style="margin-bottom:20px">
+        <div class="card-title">🏆 Badges & Rewards</div>
+        <div class="badge-grid">
+          <div class="badge-item earned"><span class="badge-emoji-sm">🌱</span><div class="badge-label">Starter</div></div>
+          <div class="badge-item" id="b2" style="opacity:0.35"><span class="badge-emoji-sm">💬</span><div class="badge-label">Connector</div></div>
+          <div class="badge-item" id="b3" style="opacity:0.35"><span class="badge-emoji-sm">🥈</span><div class="badge-label">Silver</div></div>
+          <div class="badge-item" id="b4" style="opacity:0.35"><span class="badge-emoji-sm">🥇</span><div class="badge-label">Gold</div></div>
+        </div>
+        <div class="cert-box">
+          <h3>📜 Your Certificate</h3>
+          <p>Share your mentorship on LinkedIn and CV</p>
+          <button class="btn-cert" onclick="downloadCert()">Download Certificate</button>
+          <button class="btn-share" onclick="shareLinkedIn()">Share on LinkedIn</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">⭐ Student Reviews</div>
+        <div id="reviewsList">
+          <div class="empty-state"><div>⭐</div><div>No reviews yet!</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const API = "http://localhost:8000";
+const emojis = {Film:"🎬",Music:"🎵","Visual Art":"🎨",Writing:"✍️",Engineering:"⚙️",Medicine:"🩺"};
+let mentor = null;
+
+function logout() { localStorage.removeItem("mentor"); window.location.href = "mentor-register.html"; }
+
+function loadDashboard() {
+  const stored = localStorage.getItem("mentor");
+  if (!stored) { window.location.href = "mentor-register.html"; return; }
+  mentor = JSON.parse(stored);
+  document.getElementById("headerName").textContent = "👋 " + mentor.name;
+  document.getElementById("heroGreeting").textContent = "Welcome back, " + mentor.name + "! 🎉";
+  document.getElementById("heroSub").textContent = mentor.field + " Mentor · " + mentor.university;
+  document.getElementById("mentorName").textContent = mentor.name;
+  document.getElementById("mentorMeta").textContent = mentor.year + " · " + mentor.university;
+  document.getElementById("mentorEmoji").textContent = emojis[mentor.field] || "🎓";
+  document.getElementById("mentorBio").textContent = mentor.bio || "";
+  document.getElementById("mentorTags").innerHTML = "<span class='tag tag-teal'>" + mentor.field + "</span><span class='tag tag-purple'>" + mentor.year + "</span>";
+  const points = mentor.reward_points || 0;
+  document.getElementById("statPoints").textContent = points;
+  const pct = Math.min((points/500)*100, 100);
+  document.getElementById("pointsFill").style.width = pct + "%";
+  document.getElementById("pointsLabel").textContent = points + " / 500";
+  if(points >= 100) document.getElementById("b2").style.opacity = "1";
+  if(points >= 300) document.getElementById("b3").style.opacity = "1";
+  if(points >= 500) { document.getElementById("b4").style.opacity = "1"; document.getElementById("heroBadgeEmoji").textContent = "🥇"; document.getElementById("heroBadgeTitle").textContent = "Gold Mentor"; }
+}
+
+function downloadCert() {
+  if(!mentor) return;
+  const cert = "MENTORBRIDGE VERIFIED MENTOR CERTIFICATE\n\nThis certifies that\n" + mentor.name + "\n" + mentor.university + " - " + mentor.field + "\n\nIs a Verified Mentor on MentorBridge\nby Advent AI Solutions\nIgniting possibilities";
+  const blob = new Blob([cert], {type:"text/plain"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "MentorBridge_Certificate.txt";
+  a.click();
+}
+
+function shareLinkedIn() {
+  const text = "I am a verified mentor on MentorBridge by Advent AI Solutions! Helping students aged 14-17 find their path to top universities. Igniting possibilities. #Mentorship #MentorBridge";
+  window.open("https://www.linkedin.com/sharing/share-offsite/?url=https://mentorbridge.app&summary=" + encodeURIComponent(text), "_blank");
+}
+
+loadDashboard();
+</script>
+</body>
+</html>

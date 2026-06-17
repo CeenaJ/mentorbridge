@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MentorBridge by Advent AI Solutions</title>
+<style>
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap");
+:root{--teal:#2EC4A5;--teal-dark:#1FA888;--teal-light:#E8F9F6;--purple:#5B4FC8;--purple-dark:#4438A8;--purple-light:#EEEDFB;--gold:#F0C040;--gold-light:#FEF8DC;--navy:#1E1B4B;--navy-mid:#2D2A6E;--gray:#64748B;--light:#F8FAFC;--white:#FFFFFF;--border:#E2E8F0}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Plus Jakarta Sans",sans-serif;background:var(--light);color:var(--navy);min-height:100vh}
+header{background:var(--navy);padding:14px 40px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 20px rgba(30,27,75,0.3)}
+.logo-area{display:flex;align-items:center;gap:12px}
+.logo-icon{width:38px;height:38px;background:linear-gradient(135deg,var(--teal),var(--purple));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem}
+.logo-name{font-size:1rem;font-weight:800;color:white;letter-spacing:-0.3px;line-height:1.1}
+.logo-name span{color:var(--teal)}
+.logo-tag{font-size:0.65rem;color:rgba(255,255,255,0.5);letter-spacing:0.06em;text-transform:uppercase}
+.header-badge{background:linear-gradient(135deg,rgba(46,196,165,0.15),rgba(91,79,200,0.15));border:1px solid rgba(46,196,165,0.3);color:var(--teal);padding:6px 14px;border-radius:20px;font-size:0.75rem;font-weight:700}
+.hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-mid) 60%,#3B3580 100%);padding:70px 40px;text-align:center;position:relative;overflow:hidden}
+.glow1{position:absolute;width:500px;height:500px;background:radial-gradient(circle,rgba(46,196,165,0.15) 0%,transparent 65%);top:-150px;left:-100px;border-radius:50%}
+.glow2{position:absolute;width:400px;height:400px;background:radial-gradient(circle,rgba(91,79,200,0.2) 0%,transparent 65%);bottom:-100px;right:-50px;border-radius:50%}
+.hero-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(240,192,64,0.15);border:1px solid rgba(240,192,64,0.35);color:var(--gold);padding:7px 18px;border-radius:20px;font-size:0.8rem;font-weight:700;margin-bottom:24px;position:relative;z-index:1;letter-spacing:0.04em}
+.hero h1{font-size:3rem;font-weight:800;color:white;line-height:1.1;margin-bottom:18px;position:relative;z-index:1;letter-spacing:-1.5px;max-width:640px;margin-left:auto;margin-right:auto}
+.hero h1 .teal{color:var(--teal)}
+.hero h1 .gold{color:var(--gold)}
+.hero-sub{color:rgba(255,255,255,0.65);font-size:1.05rem;max-width:520px;margin:0 auto 12px;line-height:1.65;position:relative;z-index:1}
+.hero-tagline{color:var(--teal);font-size:0.88rem;font-weight:600;font-style:italic;margin-bottom:36px;position:relative;z-index:1}
+.hero-stats{display:flex;justify-content:center;gap:40px;position:relative;z-index:1;flex-wrap:wrap}
+.hero-stat .num{font-size:2rem;font-weight:800;color:white;display:block;line-height:1}
+.num-teal{color:var(--teal) !important}
+.hero-stat .lbl{font-size:0.72rem;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.1em;margin-top:4px;display:block}
+.fields-bar{background:white;padding:28px 40px;border-bottom:1px solid var(--border)}
+.fields-bar-title{text-align:center;font-size:0.75rem;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:16px}
+.fields-row{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+.field-pill{display:flex;align-items:center;gap:6px;padding:8px 18px;border-radius:50px;font-size:0.82rem;font-weight:700;border:2px solid transparent;cursor:default}
+.pill-film{background:#FEF9EC;color:#92400E;border-color:#FDE68A}
+.pill-music{background:var(--teal-light);color:var(--teal-dark);border-color:#A7F3E0}
+.pill-art{background:#FDF2F8;color:#9D174D;border-color:#FBCFE8}
+.pill-writing{background:var(--purple-light);color:var(--purple-dark);border-color:#C4B5FD}
+.pill-eng{background:#EFF6FF;color:#1E40AF;border-color:#BFDBFE}
+.pill-med{background:#FFF1F2;color:#9F1239;border-color:#FECDD3}
+.container{max-width:880px;margin:0 auto;padding:44px 20px}
+.progress-wrap{display:flex;align-items:center;margin-bottom:36px}
+.prog-step{display:flex;align-items:center;gap:10px}
+.prog-circle{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.82rem;font-weight:800;flex-shrink:0;transition:all 0.3s;background:var(--border);color:var(--gray)}
+.prog-circle.active{background:linear-gradient(135deg,var(--teal),var(--purple));color:white;box-shadow:0 0 0 4px rgba(46,196,165,0.2)}
+.prog-circle.done{background:var(--teal);color:white}
+.prog-label{font-size:0.8rem;font-weight:700;color:var(--gray)}
+.prog-label.active{color:var(--teal)}
+.prog-label.done{color:var(--teal-dark)}
+.prog-line{flex:1;height:2px;background:var(--border);margin:0 12px;border-radius:2px;transition:background 0.3s}
+.prog-line.done{background:var(--teal)}
+.section{display:none}
+.section.active{display:block}
+.card{background:white;border-radius:24px;padding:40px;box-shadow:0 4px 32px rgba(30,27,75,0.08);border:1px solid var(--border)}
+.card-eyebrow{font-size:0.7rem;font-weight:800;text-transform:uppercase;letter-spacing:0.12em;color:var(--teal);margin-bottom:8px}
+.card-title{font-size:1.6rem;font-weight:800;letter-spacing:-0.5px;margin-bottom:6px;color:var(--navy)}
+.card-sub{color:var(--gray);font-size:0.88rem;margin-bottom:30px;line-height:1.6}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.form-full{grid-column:1/-1}
+.form-group{display:flex;flex-direction:column;gap:7px}
+label{font-size:0.78rem;font-weight:800;color:var(--navy);text-transform:uppercase;letter-spacing:0.07em}
+input,select,textarea{padding:13px 16px;border:2px solid var(--border);border-radius:12px;font-size:0.9rem;font-family:"Plus Jakarta Sans",sans-serif;outline:none;transition:all 0.2s;background:var(--light);color:var(--navy)}
+input:focus,select:focus,textarea:focus{border-color:var(--teal);background:white;box-shadow:0 0 0 4px rgba(46,196,165,0.1)}
+textarea{resize:none}
+.btn-main{background:linear-gradient(135deg,var(--teal),var(--purple));color:white;border:none;padding:15px 28px;border-radius:14px;font-size:0.95rem;font-weight:800;cursor:pointer;width:100%;margin-top:26px;transition:all 0.2s;font-family:"Plus Jakarta Sans",sans-serif;letter-spacing:0.02em}
+.btn-main:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(46,196,165,0.3)}
+.btn-main:disabled{opacity:0.45;cursor:not-allowed;transform:none;box-shadow:none}
+.btn-ghost{background:transparent;color:var(--purple);border:2px solid var(--purple-light);padding:11px 22px;border-radius:12px;font-size:0.85rem;font-weight:700;cursor:pointer;transition:all 0.2s;font-family:"Plus Jakarta Sans",sans-serif}
+.btn-ghost:hover{background:var(--purple-light);border-color:var(--purple)}
+.mentor-list{display:flex;flex-direction:column;gap:14px;margin-bottom:24px}
+.mentor-card{border:2px solid var(--border);border-radius:16px;padding:20px;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:16px;background:var(--light)}
+.mentor-card:hover{border-color:var(--teal);background:var(--teal-light);transform:translateY(-2px);box-shadow:0 8px 24px rgba(46,196,165,0.12)}
+.mentor-card.selected{border-color:var(--teal);background:var(--teal-light)}
+.mentor-avatar{width:54px;height:54px;border-radius:50%;background:linear-gradient(135deg,var(--teal-light),var(--purple-light));border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0}
+.mentor-card.selected .mentor-avatar{border-color:var(--teal)}
+.mentor-info{flex:1}
+.mentor-name{font-weight:800;font-size:1rem;color:var(--navy);margin-bottom:5px}
+.mentor-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px}
+.tag{font-size:0.68rem;font-weight:700;padding:3px 10px;border-radius:20px;text-transform:uppercase;letter-spacing:0.05em}
+.tag-teal{background:var(--teal-light);color:var(--teal-dark)}
+.tag-purple{background:var(--purple-light);color:var(--purple-dark)}
+.tag-gold{background:var(--gold-light);color:#92400E}
+.mentor-bio{font-size:0.82rem;color:var(--gray);line-height:1.5}
+.check-circle{width:26px;height:26px;border-radius:50%;border:2px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:0.8rem;transition:all 0.2s;background:white}
+.mentor-card.selected .check-circle{background:var(--teal);border-color:var(--teal);color:white}
+.chat-topbar{display:flex;align-items:center;gap:14px;padding:18px 22px;background:linear-gradient(135deg,var(--navy),var(--navy-mid));border-radius:16px 16px 0 0;margin:-40px -40px 28px}
+.chat-mentor-avatar{width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,var(--teal),var(--purple));display:flex;align-items:center;justify-content:center;font-size:1.3rem;border:2px solid rgba(255,255,255,0.2)}
+.chat-mentor-name{font-weight:800;color:white;font-size:0.95rem;margin-bottom:2px}
+.chat-mentor-sub{font-size:0.72rem;color:rgba(255,255,255,0.55);display:flex;align-items:center;gap:5px}
+.live-dot{width:7px;height:7px;background:var(--teal);border-radius:50%;display:inline-block;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+.chat-messages{height:360px;overflow-y:auto;display:flex;flex-direction:column;gap:16px;margin-bottom:20px;padding-right:4px}
+.msg{max-width:76%;display:flex;flex-direction:column;gap:4px}
+.msg-user{align-self:flex-end}
+.msg-mentor{align-self:flex-start}
+.msg-who{font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--gray);padding:0 4px}
+.msg-user .msg-who{text-align:right;color:var(--purple)}
+.msg-mentor .msg-who{color:var(--teal-dark)}
+.bubble{padding:13px 17px;border-radius:16px;font-size:0.88rem;line-height:1.65}
+.msg-user .bubble{background:linear-gradient(135deg,var(--teal),var(--purple));color:white;border-radius:16px 16px 4px 16px}
+.msg-mentor .bubble{background:var(--light);color:var(--navy);border:1px solid var(--border);border-radius:16px 16px 16px 4px}
+.chat-input-wrap{display:flex;gap:10px;align-items:center;background:var(--light);border:2px solid var(--border);border-radius:14px;padding:8px 8px 8px 18px;transition:border 0.2s}
+.chat-input-wrap:focus-within{border-color:var(--teal);box-shadow:0 0 0 4px rgba(46,196,165,0.08)}
+.chat-input-wrap input{flex:1;border:none;background:transparent;padding:6px 0;font-size:0.9rem;box-shadow:none !important}
+.chat-input-wrap input:focus{border:none;box-shadow:none}
+.send-btn{background:linear-gradient(135deg,var(--teal),var(--purple));color:white;border:none;width:42px;height:42px;border-radius:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;transition:all 0.2s;flex-shrink:0}
+.send-btn:hover{transform:scale(1.06);box-shadow:0 4px 14px rgba(46,196,165,0.3)}
+.typing-wrap{display:flex;gap:5px;padding:13px 17px;background:var(--light);border:1px solid var(--border);border-radius:16px 16px 16px 4px;width:fit-content}
+.t-dot{width:6px;height:6px;background:var(--gray);border-radius:50%;animation:tdot 1.2s infinite}
+.t-dot:nth-child(2){animation-delay:0.2s}
+.t-dot:nth-child(3){animation-delay:0.4s}
+@keyframes tdot{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-7px)}}
+.tip{background:linear-gradient(135deg,var(--gold-light),#FFFBEB);border:1px solid #FDE68A;border-radius:12px;padding:13px 16px;font-size:0.82rem;color:#78350F;margin-top:18px;line-height:1.6}
+.tip strong{color:#92400E}
+footer{background:var(--navy);color:rgba(255,255,255,0.4);text-align:center;padding:20px;font-size:0.75rem;margin-top:40px}
+footer span{color:var(--teal)}
+@media(max-width:600px){.form-grid{grid-template-columns:1fr}.hero h1{font-size:2rem}.card{padding:24px}.chat-topbar{margin:-24px -24px 20px}header{padding:14px 20px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo-area">
+    <div class="logo-icon">✦</div>
+    <div>
+      <div class="logo-name">Mentor<span>Bridge</span></div>
+      <div class="logo-tag">by Advent AI Solutions</div>
+    </div>
+  </div>
+  <div style="display:flex;gap:10px;align-items:center">
+    <span id="headerStudent" style="color:rgba(255,255,255,0.7);font-size:0.82rem;font-weight:600"></span>
+    <a href="dashboard.html" id="dashLink" style="display:none;background:rgba(46,196,165,0.2);color:#2EC4A5;padding:6px 14px;border-radius:8px;font-size:0.8rem;font-weight:700;text-decoration:none">My Dashboard →</a>
+    <div class="header-badge">✨ Free for Students 14-17</div>
+  </div>
+</header>
+<div class="hero">
+  <div class="glow1"></div><div class="glow2"></div>
+  <div class="hero-tag">✦ Igniting Possibilities</div>
+  <h1>Get mentored by people who made it to your <span class="teal">dream</span> <span class="gold">university</span></h1>
+  <p class="hero-sub">Connect with university students and alumni in Film, Music, Art, Writing and more.</p>
+  <p class="hero-tagline">— Igniting possibilities, one conversation at a time</p>
+  <div class="hero-stats">
+    <div class="hero-stat"><span class="num num-teal">500+</span><span class="lbl">Mentors</span></div>
+    <div class="hero-stat"><span class="num">50+</span><span class="lbl">Universities</span></div>
+    <div class="hero-stat"><span class="num num-teal">6</span><span class="lbl">Fields</span></div>
+    <div class="hero-stat"><span class="num">Free</span><span class="lbl">Always</span></div>
+  </div>
+</div>
+<div class="fields-bar">
+  <div style="text-align:center;margin-bottom:12px">
+    <a href="mentor-register.html" style="background:linear-gradient(135deg,#2EC4A5,#5B4FC8);color:white;padding:10px 24px;border-radius:10px;font-size:0.85rem;font-weight:700;text-decoration:none;display:inline-block">
+      🎓 Are you a university student or alumni? Join as a Mentor ✦
+    </a>
+  </div>
+  <div class="fields-bar-title">Choose your passion</div>
+  <div class="fields-row">
+    <div class="field-pill pill-film">🎬 Film</div>
+    <div class="field-pill pill-music">🎵 Music</div>
+    <div class="field-pill pill-art">🎨 Visual Art</div>
+    <div class="field-pill pill-writing">✍️ Writing</div>
+    <div class="field-pill pill-eng">⚙️ Engineering</div>
+    <div class="field-pill pill-med">🩺 Medicine</div>
+  </div>
+</div>
+<div class="container">
+  <div class="progress-wrap">
+    <div class="prog-step"><div class="prog-circle active" id="pc1">1</div><div class="prog-label active" id="pl1">Your Profile</div></div>
+    <div class="prog-line" id="pline1"></div>
+    <div class="prog-step"><div class="prog-circle" id="pc2">2</div><div class="prog-label" id="pl2">Pick Mentor</div></div>
+    <div class="prog-line" id="pline2"></div>
+    <div class="prog-step"><div class="prog-circle" id="pc3">3</div><div class="prog-label" id="pl3">Your Session</div></div>
+  </div>
+  <div class="section active" id="section1">
+    <div class="card">
+      <div class="card-eyebrow">Step 1 of 3</div>
+      <div class="card-title">👋 Tell us about yourself</div>
+      <div class="card-sub">Our AI matches you with the perfect mentor for your goals. Takes 60 seconds!</div>
+      <div class="form-grid">
+        <div class="form-group"><label>Your Name</label><input type="text" id="name" placeholder="e.g. Sara Ahmed"></div>
+        <div class="form-group"><label>Your Field</label>
+          <select id="field">
+            <option value="">Choose your passion 🎯</option>
+            <option value="Film">🎬 Film and Directing</option>
+            <option value="Music">🎵 Music</option>
+            <option value="Visual Art">🎨 Visual Art and Design</option>
+            <option value="Writing">✍️ Creative Writing</option>
+            <option value="Engineering">⚙️ Engineering</option>
+            <option value="Medicine">🩺 Medicine</option>
+          </select>
+        </div>
+        <div class="form-group form-full">
+  <label>Dream Universities (select up to 3) 🎓</label>
+  <div style="border:2px solid var(--border);border-radius:12px;padding:14px;background:var(--light);max-height:220px;overflow-y:auto" id="uniCheckboxes">
+    <label style="display:flex;align-items:center;gap:8px;padding:6px 0;font-size:0.88rem;text-transform:none;letter-spacing:0;font-weight:500;cursor:pointer"><input type="checkbox" value="Brown University" onchange="updateUnis()"> 🎓 Brown University</label>
+    <label style="display:flex;align-items:center;gap:8px;padding:6px 0;font-size:0.88rem;text-transform:none;letter-spacing:0;font-weight:500;cursor:pointer"><input type="checkbox" value="NYU Tisch" onchange="updateUnis()"> 🎬 NYU Tisch</label>
+    <label style="display:flex;align-items:center;gap:8px;padding:6px 0;font-size:0.88rem;text-transform:none;letter-spacing:0;font-weight:500;cursor:pointer"><input type="checkbox" value="MIT" onchange="updateUnis()"> ⚙️ MIT</label>
+    <label style="display:flex;align-items:center;gap:8px;padding:6px 0;font-size:0.88rem;text-transform:none;letter-spacing:0;font-weight:500;cursor:pointer"><input type="checkbox" value="Harvard University" onchange="updateUnis()"> 🏛️ Harvard University</label>
+    <label style="display:flex;align-items:center;gap:8px;padding:6px 0;font-size:0.88rem;text-transform:none;letter-spacing:0;font-weight:500;cursor:pointer"><input type="checkbox" value="Stanford University" onchange="updateUnis()"> 🌴 Stanford University</label>
+    <label style="display:flex;align-items:center;gap:8px;padding:6px 0;font-size:0.88rem;text-transform:none;letter-spacing:0;font-weight:500;cursor:pointer"><input type="checkbox" value="Yale University" onchange="updateUnis()"> 🎭 Yale University</label>
+    <label style="display:flex;align-items:center;gap:8px;padding:6px 0;font-size:0.88rem;text-transform:none;letter-spacing:0;font-weight:500;cursor:pointer"><input type="checkbox" value="Columbia University" onchange="updateUnis()"> 🗽 Columbia University</label>
+    <label style="display:flex;align-items:center;gap:8px;padding:6px 0;font-size:0.88rem;text-transform:none;letter-spacing:0;font-weight:500;cursor:pointer"><input type="checkbox" value="Berklee College of Music" onchange="updateUnis()"> 🎵 Berklee College of Music</label>
+    <label style="display:flex;align-items:center;gap:8px;padding:6px 0;font-size:0.88rem;text-transform:none;letter-spacing:0;font-weight:500;cursor:pointer"><input type="checkbox" value="Royal College of Art" onchange="updateUnis()"> 🎨 Royal College of Art</label>
+    <label style="display:flex;align-items:center;gap:8px;padding:6px 0;font-size:0.88rem;text-transform:none;letter-spacing:0;font-weight:500;cursor:pointer"><input type="checkbox" value="UCLA" onchange="updateUnis()"> 🎬 UCLA</label>
+    <label style="display:flex;align-items:center;gap:8px;padding:6px 0;font-size:0.88rem;text-transform:none;letter-spacing:0;font-weight:500;cursor:pointer"><input type="checkbox" value="USC" onchange="updateUnis()"> 🎥 USC</label>
+    <label style="display:flex;align-items:center;gap:8px;padding:6px 0;font-size:0.88rem;text-transform:none;letter-spacing:0;font-weight:500;cursor:pointer"><input type="checkbox" value="Oxford University" onchange="updateUnis()"> 🇬🇧 Oxford University</label>
+    <label style="display:flex;align-items:center;gap:8px;padding:6px 0;font-size:0.88rem;text-transform:none;letter-spacing:0;font-weight:500;cursor:pointer"><input type="checkbox" value="Cambridge University" onchange="updateUnis()"> 🇬🇧 Cambridge University</label>
+    <label style="display:flex;align-items:center;gap:8px;padding:6px 0;font-size:0.88rem;text-transform:none;letter-spacing:0;font-weight:500;cursor:pointer"><input type="checkbox" value="other" onchange="toggleOther(this)"> 🔍 Other — I want to explore more</label>
+  </div>
+  <input type="text" id="otherUni" placeholder="Type your university here..." style="display:none;margin-top:8px;width:100%;padding:12px 16px;border:2px solid var(--border);border-radius:12px;font-size:0.9rem;font-family:inherit;outline:none" oninput="updateUnis()">
+  <div style="font-size:0.75rem;color:var(--gray);margin-top:6px" id="uniCount">0 selected (max 3)</div>
+  <input type="hidden" id="university">
+</div>
+        <div class="form-group form-full"><label>Your Goals 🎯</label><textarea id="goals" rows="2" placeholder="What do you want to achieve?"></textarea></div>
+        <div class="form-group form-full"><label>Your Achievements ⭐</label><textarea id="achievements" rows="2" placeholder="Awards, grades, projects, skills..."></textarea></div>
+      </div>
+      <div class='form-group'><label>Email Address 📧</label><input type='email' id='email' placeholder='your@email.com'></div>
+        <div class='form-group'><label>Password 🔒</label><input type='password' id='password' placeholder='Create a password'></div>
+        </div>
+        <button class="btn-main" onclick="findMentors()">Find My Perfect Mentor ✦</button>
+      <div class="tip"><strong>💡 Tip:</strong> The more detail you add, the smarter your AI match will be!</div>
+    </div>
+  </div>
+  <div class="section" id="section2">
+    <div class="card">
+      <div class="card-eyebrow">Step 2 of 3</div>
+      <div class="card-title">🤝 Your Mentor Matches</div>
+      <div class="card-sub">Our AI matched these mentors to your profile. Pick the one that feels right!</div>
+      <div class="mentor-list" id="mentorList"></div>
+      <button class="btn-main" id="selectBtn" onclick="startSession()" disabled>Start My Session ✦</button>
+      <div style="text-align:center;margin-top:14px"><button class="btn-ghost" onclick="showSection(1)">← Update my profile</button></div>
+    </div>
+  </div>
+  <div class="section" id="section3">
+    <div class="card">
+      <div class="chat-topbar">
+        <div class="chat-mentor-avatar" id="chatEmoji">🎓</div>
+        <div>
+          <div class="chat-mentor-name" id="chatName">Your Mentor</div>
+          <div class="chat-mentor-sub"><span class="live-dot"></span> Live AI Session · MentorBridge</div>
+        </div>
+      </div>
+      <div class="chat-messages" id="chatBox"></div>
+      <div class="chat-input-wrap">
+        <input type="text" id="chatInput" placeholder="Ask your mentor anything... 💬" onkeydown="if(event.key==='Enter') sendMessage()">
+        <button class="send-btn" onclick="sendMessage()">➤</button>
+      </div>
+      <div class="tip"><strong>✦ Try asking:</strong> "How did you get into Brown?" · "What should I focus on in Year 11?" · "How do I build a portfolio?"</div>
+    </div>
+  </div>
+</div>
+<footer><div>MentorBridge · Powered by <span>Advent AI Solutions</span> · Igniting possibilities ✦</div></footer>
+<script>
+const API="http://localhost:8000";
+
+function updateUnis() {
+  const checked = [...document.querySelectorAll('#uniCheckboxes input[type=checkbox]:checked')].filter(c => c.value !== 'other');
+  const otherVal = document.getElementById('otherUni').value.trim();
+  let all = checked.map(c => c.value);
+  if(otherVal) all.push(otherVal);
+  if(all.length > 3) { event.target.checked = false; alert('Maximum 3 universities!'); return; }
+  document.getElementById('university').value = all.join(', ');
+  document.getElementById('uniCount').textContent = all.length + ' selected (max 3)';
+  document.getElementById('uniCount').style.color = all.length >= 3 ? 'var(--teal)' : 'var(--gray)';
+}
+
+function toggleOther(el) {
+  const otherInput = document.getElementById('otherUni');
+  otherInput.style.display = el.checked ? 'block' : 'none';
+  if(!el.checked) { otherInput.value = ''; updateUnis(); }
+}
+function updateUnis() {
+  const checked = [...document.querySelectorAll('#uniCheckboxes input:checked')];
+  if(checked.length > 3) {
+    event.target.checked = false;
+    alert('Maximum 3 universities!');
+    return;
+  }
+  const vals = checked.map(c => c.value).join(', ');
+  document.getElementById('university').value = vals;
+  document.getElementById('uniCount').textContent = checked.length + ' selected (max 3)';
+  document.getElementById('uniCount').style.color = checked.length === 3 ? 'var(--teal)' : 'var(--gray)';
+}
+// Check if already logged in
+const existingStudent = localStorage.getItem('student');
+if(existingStudent) {
+  const s = JSON.parse(existingStudent);
+  const el = document.getElementById('headerStudent');
+  const dl = document.getElementById('dashLink');
+  if(el) el.textContent = '👋 ' + s.name;
+  if(dl) dl.style.display = 'block';
+}
+let selectedMentor=null,chatHistory=[];
+const emojis={Film:"🎬",Music:"🎵","Visual Art":"🎨",Writing:"✍️",Engineering:"⚙️",Medicine:"🩺"};
+function showSection(n){
+  document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
+  document.getElementById("section"+n).classList.add("active");
+  for(let i=1;i<=3;i++){
+    const pc=document.getElementById("pc"+i),pl=document.getElementById("pl"+i);
+    if(i<n){pc.className="prog-circle done";pc.textContent="✓";pl.className="prog-label done";if(i<3)document.getElementById("pline"+i).className="prog-line done";}
+    else if(i===n){pc.className="prog-circle active";pc.textContent=i;pl.className="prog-label active";}
+    else{pc.className="prog-circle";pc.textContent=i;pl.className="prog-label";}
+  }
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+async function findMentors(){
+  const email = document.getElementById('email') ? document.getElementById('email').value.trim() : '';
+  const password = document.getElementById('password') ? document.getElementById('password').value.trim() : '';
+  const name=document.getElementById("name").value.trim();
+  const field=document.getElementById("field").value;
+  const university=document.getElementById("university").value.trim();
+  const goals=document.getElementById("goals").value.trim();
+  const achievements=document.getElementById("achievements").value.trim();
+  if(!name||!field||!university||!goals||!achievements){alert("Please fill in all fields!");return;}
+  showSection(2);
+  document.getElementById("mentorList").innerHTML="<div style='text-align:center;padding:40px;color:#64748B'><div style='font-size:2.5rem;margin-bottom:14px'>✦</div><div style='font-weight:700;font-size:1rem;color:#1E1B4B'>Finding your perfect mentor...</div></div>";
+  try{
+    // Try to register student first
+  if(email && password) {
+    try {
+      const regRes = await fetch(API+'/register', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,email,password,field,target_university:university,goals,achievements})});
+      const regData = await regRes.json();
+      if(regData.success) {
+          localStorage.setItem('student', JSON.stringify(regData.student));
+          window.location.href = 'dashboard.html';
+          return;
+        }
+      else {
+        const loginRes = await fetch(API+'/login', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,password})});
+        const loginData = await loginRes.json();
+        if(loginData.success) {
+            localStorage.setItem('student', JSON.stringify(loginData.student));
+            window.location.href = 'dashboard.html';
+            return;
+          }
+      }
+    } catch(e) { console.log('Auth error', e); }
+  }
+  const res=await fetch(API+"/match",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({name,field,target_university:university,goals,achievements})});
+    const data=await res.json();
+    renderMentors(data.mentors);
+    // Show dashboard link after matching
+    const dashBtn = document.createElement("div");
+    dashBtn.style = "text-align:center;margin-top:16px";
+    dashBtn.innerHTML = "<a href='dashboard.html' style='background:linear-gradient(135deg,#2EC4A5,#5B4FC8);color:white;padding:12px 24px;border-radius:12px;font-size:0.88rem;font-weight:800;text-decoration:none;display:inline-block'>View My Dashboard →</a>";
+    document.getElementById("mentorList").after(dashBtn);
+  }catch(e){document.getElementById("mentorList").innerHTML="<div style='text-align:center;padding:32px;color:#EF4444;font-weight:600'>Cannot connect to server. Is the backend running?</div>";}
+}
+function renderMentors(mentors){
+  if(!mentors||!mentors.length){document.getElementById("mentorList").innerHTML="<div style='text-align:center;padding:32px'>No mentors found for this field yet.</div>";return;}
+  document.getElementById("mentorList").innerHTML=mentors.map(m=>`<div class="mentor-card" onclick="pickMentor(this,${JSON.stringify(m).replace(/"/g,"&quot;")})"><div class="mentor-avatar">${emojis[m.field]||"🎓"}</div><div class="mentor-info"><div class="mentor-name">${m.name}</div><div class="mentor-tags"><span class="tag tag-teal">${m.field}</span><span class="tag tag-purple">${m.year}</span><span class="tag tag-gold">${m.university}</span></div><div class="mentor-bio">${m.bio}</div></div><div class="check-circle">✓</div></div>`).join("");
+}
+function pickMentor(el,mentor){
+  document.querySelectorAll(".mentor-card").forEach(c=>c.classList.remove("selected"));
+  el.classList.add("selected");selectedMentor=mentor;
+  document.getElementById("selectBtn").disabled=false;
+}
+function startSession(){
+  if(!selectedMentor)return;
+  document.getElementById("chatName").textContent=selectedMentor.name+" · "+selectedMentor.university;
+  document.getElementById("chatEmoji").textContent=emojis[selectedMentor.field]||"🎓";
+  chatHistory=[];document.getElementById("chatBox").innerHTML="";
+  addMsg("mentor",selectedMentor.name,"Hey, great to meet you! I am "+selectedMentor.name+", I studied "+selectedMentor.field+" at "+selectedMentor.university+". "+selectedMentor.bio+". What would you like to know?");
+  showSection(3);
+}
+async function sendMessage(){
+  const inp=document.getElementById("chatInput");
+  const msg=inp.value.trim();if(!msg)return;
+  inp.value="";addMsg("user","You",msg);
+  chatHistory.push({role:"user",content:msg});
+  const typing=addTyping();
+  try{
+    const res=await fetch(API+"/chat",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({mentor_id:selectedMentor.id,mentor_name:selectedMentor.name,mentor_university:selectedMentor.university,mentor_field:selectedMentor.field,mentor_year:selectedMentor.year,mentor_bio:selectedMentor.bio,message:msg,history:chatHistory.slice(0,-1)})});
+    const data=await res.json();typing.remove();
+    addMsg("mentor",selectedMentor.name,data.response);
+    chatHistory.push({role:"assistant",content:data.response});
+  }catch(e){typing.remove();addMsg("mentor","System","Connection error - please try again!");}
+}
+function addMsg(role,label,text){
+  const box=document.getElementById("chatBox");
+  const d=document.createElement("div");d.className="msg msg-"+role;
+  d.innerHTML="<div class='msg-who'>"+label+"</div><div class='bubble'>"+text+"</div>";
+  box.appendChild(d);box.scrollTop=box.scrollHeight;return d;
+}
+function addTyping(){
+  const box=document.getElementById("chatBox");
+  const d=document.createElement("div");d.className="msg msg-mentor";
+  d.innerHTML="<div class='msg-who'>"+(selectedMentor?selectedMentor.name:"Mentor")+"</div><div class='typing-wrap'><div class='t-dot'></div><div class='t-dot'></div><div class='t-dot'></div></div>";
+  box.appendChild(d);box.scrollTop=box.scrollHeight;return d;
+}
+</script>
+</body>
+</html>
