@@ -373,7 +373,9 @@ async function findMentors(){
       const regRes = await fetch(API+'/register', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,email,password,field,target_university:university,goals,achievements})});
       const regData = await regRes.json();
       if(regData.success) {
-          localStorage.setItem('student', JSON.stringify(regData.student));
+          const studentData = JSON.stringify(regData.student);
+          localStorage.setItem('student', studentData);
+          console.log('Saved student:', studentData);
           window.location.href = 'dashboard.html';
           return;
         }

@@ -263,7 +263,10 @@ function showTab(tab) {
 
 async function loadDashboard() {
   const stored = localStorage.getItem("student");
-  if (!stored) { window.location.href = "index.html"; return; }
+  if (!stored || stored === "undefined" || stored === "null") { 
+    window.location.href = "index.html"; 
+    return; 
+  }
   student = JSON.parse(stored);
 
   document.getElementById("headerName").textContent = "👋 " + student.name;
