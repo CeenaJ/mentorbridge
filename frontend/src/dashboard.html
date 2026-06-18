@@ -262,34 +262,14 @@ function showTab(tab) {
 }
 
 async function loadDashboard() {
-  // Try URL params first
   const params = new URLSearchParams(window.location.search);
-  if(params.get('id')) {
-    student = {
-      id: parseInt(params.get('id')),
-      name: decodeURIComponent(params.get('name') || ''),
-      field: decodeURIComponent(params.get('field') || ''),
-      target_university: decodeURIComponent(params.get('university') || ''),
-      goals: decodeURIComponent(params.get('goals') || ''),
-      achievements: decodeURIComponent(params.get('achievements') || '')
-    };
-    // Save to multiple storage methods
-    localStorage.setItem('student', JSON.stringify(student));
-    sessionStorage.setItem('student', JSON.stringify(student));
-  } else {
-    // Try localStorage first, then sessionStorage
-    let stored = localStorage.getItem("student") || sessionStorage.getItem("student");
-    if (!stored || stored === "undefined" || stored === "null") {
-      window.location.href = "index.html";
-      return;
-    }
-    try {
-      student = JSON.parse(stored);
-    } catch(e) {
-      window.location.href = "index.html";
-      return;
-    }
-  }
+  const studentId = params.get('id');
+  if(!studentId) { window.location.href = "index.html"; return; }
+  try {
+    const res = await fetch(API + "/student/" + studentId);
+    if(!res.ok) { window.location.href = "index.html"; return; }
+    student = await res.json();
+  } catch(e) { window.location.href = "index.html"; return; }
 
   document.getElementById("headerName").textContent = "👋 " + student.name;
   document.getElementById("heroGreeting").textContent = "Welcome back, " + student.name + "! 🎉";
