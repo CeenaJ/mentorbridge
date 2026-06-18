@@ -255,7 +255,7 @@ footer span{color:var(--teal)}
       </div>
       <div class="tip"><strong>✦ Try asking:</strong> "How did you get into Brown?" · "What should I focus on in Year 11?" · "How do I build a portfolio?"</div>
       <div style="display:flex;gap:12px;margin-top:16px">
-        <button onclick="window.location.href='dashboard.html'" style="flex:1;background:linear-gradient(135deg,var(--teal),var(--purple));color:white;border:none;padding:13px;border-radius:12px;font-size:0.88rem;font-weight:800;cursor:pointer;font-family:inherit">
+        <button onclick="gotoDashboard()" style="flex:1;background:linear-gradient(135deg,var(--teal),var(--purple));color:white;border:none;padding:13px;border-radius:12px;font-size:0.88rem;font-weight:800;cursor:pointer;font-family:inherit">
           Go to My Dashboard →
         </button>
         <button onclick="showSection(1)" style="flex:1;background:white;color:var(--purple);border:2px solid var(--purple-light);padding:13px;border-radius:12px;font-size:0.88rem;font-weight:700;cursor:pointer;font-family:inherit">
@@ -268,6 +268,16 @@ footer span{color:var(--teal)}
 <footer><div>MentorBridge · Powered by <span>Advent AI Solutions</span> · Igniting possibilities ✦</div></footer>
 <script>
 const API="https://mentorbridge-production-9133.up.railway.app";
+
+function gotoDashboard() {
+  const stored = localStorage.getItem('student');
+  if(stored) {
+    const s = JSON.parse(stored);
+    window.location.href = 'dashboard.html?id=' + s.id + '&name=' + encodeURIComponent(s.name) + '&field=' + encodeURIComponent(s.field || '') + '&university=' + encodeURIComponent(s.target_university || '') + '&goals=' + encodeURIComponent(s.goals || '') + '&achievements=' + encodeURIComponent(s.achievements || '');
+  } else {
+    window.location.href = 'dashboard.html';
+  }
+}
 
 async function loginExisting() {
   const email = document.getElementById('loginEmail').value.trim();
@@ -307,6 +317,16 @@ function toggleOther(el) {
   otherInput.style.display = el.checked ? 'block' : 'none';
   if(!el.checked) { otherInput.value = ''; updateUnis(); }
 }
+function gotoDashboard() {
+  const stored = localStorage.getItem('student');
+  if(stored) {
+    const s = JSON.parse(stored);
+    window.location.href = 'dashboard.html?id=' + s.id + '&name=' + encodeURIComponent(s.name) + '&field=' + encodeURIComponent(s.field || '') + '&university=' + encodeURIComponent(s.target_university || '') + '&goals=' + encodeURIComponent(s.goals || '') + '&achievements=' + encodeURIComponent(s.achievements || '');
+  } else {
+    window.location.href = 'dashboard.html';
+  }
+}
+
 async function loginExisting() {
   const email = document.getElementById('loginEmail').value.trim();
   const password = document.getElementById('loginPassword').value.trim();

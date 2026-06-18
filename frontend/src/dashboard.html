@@ -262,12 +262,26 @@ function showTab(tab) {
 }
 
 async function loadDashboard() {
-  const stored = localStorage.getItem("student");
-  if (!stored || stored === "undefined" || stored === "null") { 
-    window.location.href = "index.html"; 
-    return; 
+  // Try URL params first
+  const params = new URLSearchParams(window.location.search);
+  if(params.get('id')) {
+    student = {
+      id: parseInt(params.get('id')),
+      name: params.get('name') || '',
+      field: params.get('field') || '',
+      target_university: params.get('university') || '',
+      goals: params.get('goals') || '',
+      achievements: params.get('achievements') || ''
+    };
+    localStorage.setItem('student', JSON.stringify(student));
+  } else {
+    const stored = localStorage.getItem("student");
+    if (!stored || stored === "undefined" || stored === "null") { 
+      window.location.href = "index.html"; 
+      return; 
+    }
+    student = JSON.parse(stored);
   }
-  student = JSON.parse(stored);
 
   document.getElementById("headerName").textContent = "👋 " + student.name;
   document.getElementById("heroGreeting").textContent = "Welcome back, " + student.name + "! 🎉";
