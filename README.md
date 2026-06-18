@@ -1,5 +1,5 @@
 # MentorBridge 🎓
-### by Advent AI Solutions — *Igniting Possibilities*
+### by Ceena Justin
 
 An AI-powered mentorship platform connecting students aged 14-17 
 with university alumni and current students in their creative field.
@@ -31,4 +31,4 @@ python main.py
 ```
 
 ## Week 3 Project — Mastering Agentic AI Bootcamp
-The Gen Academy | Advent AI Solutions
+The Gen Academy 
