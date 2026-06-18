@@ -264,12 +264,20 @@ function showTab(tab) {
 async function loadDashboard() {
   const params = new URLSearchParams(window.location.search);
   const studentId = params.get('id');
-  if(!studentId) { window.location.href = "index.html"; return; }
-  try {
-    const res = await fetch(API + "/student/" + studentId);
-    if(!res.ok) { window.location.href = "index.html"; return; }
-    student = await res.json();
-  } catch(e) { window.location.href = "index.html"; return; }
+  const studentName = params.get('name');
+  if(studentId && studentName) {
+    student = {
+      id: parseInt(studentId),
+      name: decodeURIComponent(studentName),
+      field: decodeURIComponent(params.get('field') || ''),
+      target_university: decodeURIComponent(params.get('university') || ''),
+      goals: decodeURIComponent(params.get('goals') || ''),
+      achievements: decodeURIComponent(params.get('achievements') || '')
+    };
+  } else {
+    window.location.href = "index.html";
+    return;
+  }
 
   document.getElementById("headerName").textContent = "👋 " + student.name;
   document.getElementById("heroGreeting").textContent = "Welcome back, " + student.name + "! 🎉";
