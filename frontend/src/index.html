@@ -172,7 +172,16 @@ footer span{color:var(--teal)}
   </div>
   <div class="section active" id="section1">
     <div class="card">
-      <div class="card-eyebrow">Step 1 of 3</div>
+      <div style="text-align:center;margin-bottom:24px;padding:16px;background:var(--light);border-radius:12px;border:1px solid var(--border)">
+  <div style="font-size:0.88rem;color:var(--gray);margin-bottom:12px">Already have an account?</div>
+  <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+    <input type="email" id="loginEmail" placeholder="Your email" style="padding:10px 14px;border:2px solid var(--border);border-radius:10px;font-size:0.88rem;font-family:inherit;outline:none;width:200px">
+    <input type="password" id="loginPassword" placeholder="Password" style="padding:10px 14px;border:2px solid var(--border);border-radius:10px;font-size:0.88rem;font-family:inherit;outline:none;width:160px">
+    <button onclick="loginExisting()" style="background:linear-gradient(135deg,var(--teal),var(--purple));color:white;border:none;padding:10px 20px;border-radius:10px;font-size:0.88rem;font-weight:700;cursor:pointer;font-family:inherit">Sign In →</button>
+  </div>
+  <div id="loginError" style="color:#EF4444;font-size:0.8rem;margin-top:8px;display:none">Invalid email or password</div>
+</div>
+<div class="card-eyebrow">Step 1 of 3</div>
       <div class="card-title">👋 Tell us about yourself</div>
       <div class="card-sub">Our AI matches you with the perfect mentor for your goals. Takes 60 seconds!</div>
       <div class="form-grid">
@@ -252,6 +261,28 @@ footer span{color:var(--teal)}
 <script>
 const API="https://mentorbridge-production-9133.up.railway.app";
 
+async function loginExisting() {
+  const email = document.getElementById('loginEmail').value.trim();
+  const password = document.getElementById('loginPassword').value.trim();
+  if(!email || !password) { alert('Please enter email and password'); return; }
+  try {
+    const res = await fetch(API + '/login', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({email, password})
+    });
+    const data = await res.json();
+    if(data.success) {
+      localStorage.setItem('student', JSON.stringify(data.student));
+      window.location.href = 'dashboard.html';
+    } else {
+      document.getElementById('loginError').style.display = 'block';
+    }
+  } catch(e) {
+    alert('Cannot connect to server');
+  }
+}
+
 function updateUnis() {
   const checked = [...document.querySelectorAll('#uniCheckboxes input[type=checkbox]:checked')].filter(c => c.value !== 'other');
   const otherVal = document.getElementById('otherUni').value.trim();
@@ -268,6 +299,28 @@ function toggleOther(el) {
   otherInput.style.display = el.checked ? 'block' : 'none';
   if(!el.checked) { otherInput.value = ''; updateUnis(); }
 }
+async function loginExisting() {
+  const email = document.getElementById('loginEmail').value.trim();
+  const password = document.getElementById('loginPassword').value.trim();
+  if(!email || !password) { alert('Please enter email and password'); return; }
+  try {
+    const res = await fetch(API + '/login', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({email, password})
+    });
+    const data = await res.json();
+    if(data.success) {
+      localStorage.setItem('student', JSON.stringify(data.student));
+      window.location.href = 'dashboard.html';
+    } else {
+      document.getElementById('loginError').style.display = 'block';
+    }
+  } catch(e) {
+    alert('Cannot connect to server');
+  }
+}
+
 function updateUnis() {
   const checked = [...document.querySelectorAll('#uniCheckboxes input:checked')];
   if(checked.length > 3) {
