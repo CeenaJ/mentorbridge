@@ -291,8 +291,14 @@ async function loginExisting() {
     });
     const data = await res.json();
     if(data.success) {
-      localStorage.setItem('student', JSON.stringify(data.student));
-      window.location.href = 'dashboard.html';
+      const s = data.student;
+      localStorage.setItem('student', JSON.stringify(s));
+      window.location.href = 'dashboard.html?id=' + s.id + 
+        '&name=' + encodeURIComponent(s.name) + 
+        '&field=' + encodeURIComponent(s.field || '') + 
+        '&university=' + encodeURIComponent(s.target_university || '') + 
+        '&goals=' + encodeURIComponent(s.goals || '') + 
+        '&achievements=' + encodeURIComponent(s.achievements || '');
     } else {
       document.getElementById('loginError').style.display = 'block';
     }
@@ -339,8 +345,14 @@ async function loginExisting() {
     });
     const data = await res.json();
     if(data.success) {
-      localStorage.setItem('student', JSON.stringify(data.student));
-      window.location.href = 'dashboard.html';
+      const s = data.student;
+      localStorage.setItem('student', JSON.stringify(s));
+      window.location.href = 'dashboard.html?id=' + s.id + 
+        '&name=' + encodeURIComponent(s.name) + 
+        '&field=' + encodeURIComponent(s.field || '') + 
+        '&university=' + encodeURIComponent(s.target_university || '') + 
+        '&goals=' + encodeURIComponent(s.goals || '') + 
+        '&achievements=' + encodeURIComponent(s.achievements || '');
     } else {
       document.getElementById('loginError').style.display = 'block';
     }
