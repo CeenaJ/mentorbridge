@@ -293,6 +293,7 @@ async function loginExisting() {
     if(data.success) {
       const s = data.student;
       localStorage.setItem('student', JSON.stringify(s));
+      sessionStorage.setItem('student', JSON.stringify(s));
       window.location.href = 'dashboard.html?id=' + s.id + 
         '&name=' + encodeURIComponent(s.name) + 
         '&field=' + encodeURIComponent(s.field || '') + 
@@ -347,6 +348,7 @@ async function loginExisting() {
     if(data.success) {
       const s = data.student;
       localStorage.setItem('student', JSON.stringify(s));
+      sessionStorage.setItem('student', JSON.stringify(s));
       window.location.href = 'dashboard.html?id=' + s.id + 
         '&name=' + encodeURIComponent(s.name) + 
         '&field=' + encodeURIComponent(s.field || '') + 

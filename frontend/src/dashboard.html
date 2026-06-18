@@ -267,20 +267,28 @@ async function loadDashboard() {
   if(params.get('id')) {
     student = {
       id: parseInt(params.get('id')),
-      name: params.get('name') || '',
-      field: params.get('field') || '',
-      target_university: params.get('university') || '',
-      goals: params.get('goals') || '',
-      achievements: params.get('achievements') || ''
+      name: decodeURIComponent(params.get('name') || ''),
+      field: decodeURIComponent(params.get('field') || ''),
+      target_university: decodeURIComponent(params.get('university') || ''),
+      goals: decodeURIComponent(params.get('goals') || ''),
+      achievements: decodeURIComponent(params.get('achievements') || '')
     };
+    // Save to multiple storage methods
     localStorage.setItem('student', JSON.stringify(student));
+    sessionStorage.setItem('student', JSON.stringify(student));
   } else {
-    const stored = localStorage.getItem("student");
-    if (!stored || stored === "undefined" || stored === "null") { 
-      window.location.href = "index.html"; 
-      return; 
+    // Try localStorage first, then sessionStorage
+    let stored = localStorage.getItem("student") || sessionStorage.getItem("student");
+    if (!stored || stored === "undefined" || stored === "null") {
+      window.location.href = "index.html";
+      return;
     }
-    student = JSON.parse(stored);
+    try {
+      student = JSON.parse(stored);
+    } catch(e) {
+      window.location.href = "index.html";
+      return;
+    }
   }
 
   document.getElementById("headerName").textContent = "👋 " + student.name;
